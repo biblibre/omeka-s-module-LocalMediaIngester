@@ -82,7 +82,13 @@ class Local implements IngesterInterface
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($data['ingest_filename']);
         }
-        $tempFile->mediaIngestFile($media, $request, $errorStore);
+
+        $storeOriginal = $data['store_original'] ?? true;
+        $storeThumbnails = $data['store_thumbnails'] ?? true;
+        $deleteTempFile = $data['delete_temp_file'] ?? true;
+        $hydrateFileMetadataOnStoreOriginalFalse = $data['hydrate_file_metadata_on_store_original_false'] ?? false;
+
+        $tempFile->mediaIngestFile($media, $request, $errorStore, $storeOriginal, $storeThumbnails, $deleteTempFile, $hydrateFileMetadataOnStoreOriginalFalse);
     }
 
     public function form(PhpRenderer $view, array $options = [])
