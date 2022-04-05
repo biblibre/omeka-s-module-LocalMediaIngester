@@ -14,4 +14,9 @@ return [
             // '/data/files2',
         ],
     ],
+    'csv_import' => [
+        'media_ingester_adapter' => [
+            'local' => CSVImport\MediaIngesterAdapter\LocalMediaIngesterAdapter::class,
+        ],
+    ],
 ];
