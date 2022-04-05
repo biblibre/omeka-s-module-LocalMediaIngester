@@ -8,4 +8,10 @@ return [
             'local' => Service\Media\Ingester\LocalFactory::class,
         ],
     ],
+    'local_media_ingester' => [
+        'paths' => [
+            // '/data/files1',
+            // '/data/files2',
+        ],
+    ],
 ];
