@@ -30,3 +30,7 @@ return [
 ```
 
 Only files present in these directories will be allowed to be ingested.
+
+## Compatibility with other modules
+
+* Local Media Ingester can be used as a media source for [CSVImport](https://github.com/omeka-s-modules/CSVImport)
