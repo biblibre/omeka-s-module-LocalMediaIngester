@@ -31,6 +31,24 @@ return [
 
 Only files present in these directories will be allowed to be ingested.
 
+In the module global settings (Admin > Modules > LocalMediaIngester's
+"Configure" button) you can choose the default action on original files (keep
+or delete).
+This default action can be overriden when importing new media.
+
 ## Compatibility with other modules
 
 * Local Media Ingester can be used as a media source for [CSVImport](https://github.com/omeka-s-modules/CSVImport)
+
+## How to use in PHP code
+
+You can use this ingester in PHP code like this
+
+```php
+$itemData['o:media'][] = [
+    'o:ingester' => 'local',
+    'ingest_filename' => '/path/to/file.png',
+    'original_file_action' => 'keep', // or 'delete'
+];
+$api->create('items', $itemData);
+```

@@ -12,7 +12,9 @@ class LocalFactory implements FactoryInterface
         $tempFileFactory = $services->get('Omeka\File\TempFileFactory');
         $validator = $services->get('Omeka\File\Validator');
         $config = $services->get('Config');
+        $settings = $services->get('Omeka\Settings');
+        $logger = $services->get('Omeka\Logger');
 
-        return new Local($tempFileFactory, $validator, $config['local_media_ingester']);
+        return new Local($tempFileFactory, $validator, $config['local_media_ingester'], $settings, $logger);
     }
 }

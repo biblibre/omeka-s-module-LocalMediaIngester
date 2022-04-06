@@ -19,4 +19,9 @@ return [
             'local' => CSVImport\MediaIngesterAdapter\LocalMediaIngesterAdapter::class,
         ],
     ],
+    'form_elements' => [
+        'invokables' => [
+            'LocalMediaIngester\Form\ConfigForm' => Form\ConfigForm::class,
+        ],
+    ],
 ];

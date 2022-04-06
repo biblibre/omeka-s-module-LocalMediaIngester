@@ -7,7 +7,9 @@ use Omeka\File\TempFileFactory;
 use Omeka\File\Validator;
 use Omeka\Media\Ingester\IngesterInterface;
 use Omeka\Stdlib\ErrorStore;
+use Zend\Form\Element\Radio;
 use Zend\Form\Element\Text;
+use Zend\Form\Fieldset;
 use Zend\View\Renderer\PhpRenderer;
 
 class Local implements IngesterInterface
@@ -23,12 +25,16 @@ class Local implements IngesterInterface
     protected $validator;
 
     protected $config;
+    protected $settings;
+    protected $logger;
 
-    public function __construct(TempFileFactory $tempFileFactory, Validator $validator, $config)
+    public function __construct(TempFileFactory $tempFileFactory, Validator $validator, $config, $settings, $logger)
     {
         $this->tempFileFactory = $tempFileFactory;
         $this->validator = $validator;
         $this->config = $config;
+        $this->settings = $settings;
+        $this->logger = $logger;
     }
 
     public function getLabel()
@@ -89,23 +95,47 @@ class Local implements IngesterInterface
         $hydrateFileMetadataOnStoreOriginalFalse = $data['hydrate_file_metadata_on_store_original_false'] ?? false;
 
         $tempFile->mediaIngestFile($media, $request, $errorStore, $storeOriginal, $storeThumbnails, $deleteTempFile, $hydrateFileMetadataOnStoreOriginalFalse);
+
+        $this->dealWithOriginalFile($realPath, $data);
     }
 
     public function form(PhpRenderer $view, array $options = [])
     {
         $text = new Text('o:media[__index__][ingest_filename]');
-
         $text->setOptions([
             'label' => 'Path', // @translate
             'info' => 'File absolute path on the server', // @translate
         ]);
-
         $text->setAttributes([
             'id' => 'media-local-ingest-filename-__index__',
             'required' => true,
         ]);
 
-        return $view->formRow($text);
+
+        $radio = new Radio('o:media[__index__][original_file_action]');
+        $radio->setOptions([
+            'label' => 'Action on original file', // @translate
+            'info' => 'What to do with the original file after it has been successfully imported', // @translate
+        ]);
+        $radio->setAttributes([
+            'id' => 'media-local-original-file-action-__index__',
+            'required' => true,
+        ]);
+        $radio->setValueOptions([
+            'default' => sprintf(
+                'Default (%s)', // @translate
+                $this->settings->get('localmediaingester_original_file_action', 'keep')
+            ),
+            'keep' => 'Keep', // @translate
+            'delete' => 'Delete', // @translate
+        ]);
+        $radio->setValue('default');
+
+        $fieldset = new Fieldset();
+        $fieldset->add($text);
+        $fieldset->add($radio);
+
+        return $view->formCollection($fieldset, false);
     }
 
     public function verifyFile(\SplFileInfo $fileinfo)
@@ -129,6 +159,27 @@ class Local implements IngesterInterface
         }
 
         return $realPath;
+    }
+
+    protected function dealWithOriginalFile($realPath, $data)
+    {
+        $original_file_action = $data['original_file_action'] ?? 'default';
+        if (!in_array($original_file_action, ['default', 'keep', 'delete'])) {
+            $message = sprintf('LocalMediaIngester: Unknown action "%s"', $original_file_action);
+            $this->logger->err($message);
+            return;
+        }
+
+        if ($original_file_action === 'default') {
+            $original_file_action = $this->settings->get('localmediaingester_original_file_action', 'keep');
+        }
+
+        if ($original_file_action === 'delete') {
+            if (false === unlink($realPath)) {
+                $message = sprintf('LocalMediaIngester: Failed to delete file "%s"', $realPath);
+                $this->logger->warn($message);
+            }
+        }
     }
 }
 
