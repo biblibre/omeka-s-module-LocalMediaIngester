@@ -65,13 +65,17 @@ class Local implements IngesterInterface
         }
 
         $filepath = $data['ingest_filename'];
-        $fileinfo = new \SplFileInfo($filepath);
-        $realPath = $this->verifyFile($fileinfo);
-        if (false === $realPath) {
-            $errorStore->addError('ingest_filename', sprintf(
-                'Cannot load file "%s". File does not exist or does not have sufficient permissions', // @translate
-                $filepath
-            ));
+        try {
+            $realPath = $this->verifyFile($filepath);
+        } catch (\Exception $e) {
+            $errorStore->addError(
+                'ingest_filename',
+                sprintf(
+                    'Cannot load file "%s". %s', // @translate
+                    $filepath,
+                    $e->getMessage()
+                )
+            );
             return;
         }
 
@@ -138,15 +142,16 @@ class Local implements IngesterInterface
         return $view->formCollection($fieldset, false);
     }
 
-    public function verifyFile(\SplFileInfo $fileinfo)
+    public function verifyFile(string $filepath)
     {
+        $fileinfo = new \SplFileInfo($filepath);
         $realPath = $fileinfo->getRealPath();
         if (false === $realPath) {
-            return false;
+            throw new \Exception('File does not exist');
         }
 
         if (!$fileinfo->isFile() || !$fileinfo->isReadable()) {
-            return false;
+            throw new \Exception('File is not a regular file or is not readable');
         }
 
         $dirname = $fileinfo->getPath();
@@ -155,7 +160,7 @@ class Local implements IngesterInterface
             return 0 === strpos($dirname, $path);
         });
         if (empty($paths)) {
-            return false;
+            throw new \Exception('File is not inside an allowed directory');
         }
 
         return $realPath;
