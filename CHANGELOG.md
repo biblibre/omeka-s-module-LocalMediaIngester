@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+This module is now compatible with Omeka S 4.0.0. The minimum version required
+is still 2.0.0
+
 ### Changed
 
 - Made the error message more specific (#1, #2)
