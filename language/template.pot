@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Media/Ingester/Local.php:42
+msgid "Local"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:63
+msgid "No ingest filename specified"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:74
+#, php-format
+msgid "Cannot load file \"%s\". %s"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:110
+msgid "Path"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:111
+msgid "File absolute path on the server"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:121
+msgid "Action on original file"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:122 src/Form/ConfigForm.php:15
+msgid ""
+"What to do with the original file after it has been successfully imported"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:130
+#, php-format
+msgid "Default (%s)"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:133 src/Form/ConfigForm.php:22
+msgid "Keep"
+msgstr ""
+
+#: src/Form/ConfigForm.php:14
+msgid "Default action on original file"
+msgstr ""

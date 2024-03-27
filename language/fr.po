@@ -1,0 +1,58 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2024 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/Media/Ingester/Local.php:42
+msgid "Local"
+msgstr ""
+
+#: src/Media/Ingester/Local.php:63
+msgid "No ingest filename specified"
+msgstr "Pas de nom spécifié pour le fichier ingéré"
+
+#: src/Media/Ingester/Local.php:74
+#, php-format
+msgid "Cannot load file \"%s\". %s"
+msgstr "Impossible de charger le fichier \"%s\". %s"
+
+#: src/Media/Ingester/Local.php:110
+msgid "Path"
+msgstr "Chemin"
+
+#: src/Media/Ingester/Local.php:111
+msgid "File absolute path on the server"
+msgstr "Chemin absolu du fichier sur le serveur"
+
+#: src/Media/Ingester/Local.php:121
+msgid "Action on original file"
+msgstr "Action sur le fichier d'origine"
+
+#: src/Media/Ingester/Local.php:122 src/Form/ConfigForm.php:15
+msgid ""
+"What to do with the original file after it has been successfully imported"
+msgstr "Que faire du fichier original une fois qu'il a été importé avec succès"
+
+#: src/Media/Ingester/Local.php:130
+#, php-format
+msgid "Default (%s)"
+msgstr "Par défaut (%s)"
+
+#: src/Media/Ingester/Local.php:133 src/Form/ConfigForm.php:22
+msgid "Keep"
+msgstr "Garder"
+
+#: src/Form/ConfigForm.php:14
+msgid "Default action on original file"
+msgstr "Action par défaut sur le fichier d'origine"
